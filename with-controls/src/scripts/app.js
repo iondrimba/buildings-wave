@@ -261,6 +261,8 @@ export default class App {
 
   addCameraControls() {
     this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.maxPolarAngle = 1.3;
+
   }
 
   addSpotLight() {
