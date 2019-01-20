@@ -23,7 +23,7 @@ export default class App {
     this.addSpotLight();
     this.addCameraControls();
     this.addFloor();
-    this.loadModels('https://raw.githubusercontent.com/iondrimba/images/master/buildings.obj', this.onLoadModelsComplete.bind(this));
+    this.loadModels('https://raw.githubusercontent.com/iondrimba/images/master/building-scaled-down.obj', this.onLoadModelsComplete.bind(this));
 
     this.animate();
 
@@ -121,9 +121,6 @@ export default class App {
 
   onLoadModelsComplete(obj) {
     this.models = [...obj.children].map((model) => {
-      const scale = .01;
-
-      model.scale.set(scale, scale, scale);
       model.position.set(0, -14, 0);
       model.matrixAutoUpdate = false;
       model.visible = false;
@@ -155,8 +152,8 @@ export default class App {
       roughness: .8,
     };
 
-    const max = .009;
-    const min = .001;
+    const max = 1;
+    const min = .5;
 
     const material = new THREE.MeshPhysicalMaterial(meshParams);
 
@@ -185,7 +182,7 @@ export default class App {
         building.material = material;
         building.matrixAutoUpdate = true;
         building.visible = true;
-        building.scale.y = Math.random() * (max - min + .01);
+        building.scale.y = Math.random() * (max - min + 1);
         building.position.x = (i * boxSize);
         building.position.z = (j * boxSize);
 
@@ -261,7 +258,7 @@ export default class App {
   }
 
   createCamera() {
-    this.camera = new THREE.PerspectiveCamera(20, this.width / this.height, 90, 1000);
+    this.camera = new THREE.PerspectiveCamera(20, this.width / this.height, 1, 1000);
     this.camera.position.set(3, 50, 155);
 
     this.scene.add(this.camera);
