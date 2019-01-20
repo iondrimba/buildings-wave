@@ -23,7 +23,6 @@ export default class App {
     this.addSpotLight();
     this.addCameraControls();
     this.addFloor();
-    this.addTiltEvent();
     this.loadModels('https://raw.githubusercontent.com/iondrimba/images/master/buildings.obj', this.onLoadModelsComplete.bind(this));
 
     this.animate();
@@ -301,33 +300,6 @@ export default class App {
     });
 
     this.scene.add(ambientLight);
-  }
-
-  addTiltEvent() {
-    /*
-    this.mouseX = 3;
-    this.mouseY = 50;
-    this.lastMouseX = 3;
-    this.lastMouseY = 50;
-    requestAnimationFrame(() => this.tilt());
-    window.addEventListener('mousemove', (ev) => {
-      this.mouseX = ev.pageX;
-      this.mouseY = ev.pageY;
-    });*/
-  }
-
-  tilt() {
-    const lerp = (a, b, n) => (1 - n) * a + n * b;
-    const lineEq = (y2, y1, x2, x1, currentVal) => {
-      let m = (y2 - y1) / (x2 - x1);
-      let b = y1 - m * x1;
-      return m * currentVal + b;
-    };
-    this.lastMouseX = lerp(this.lastMouseX, lineEq(0, 6, this.width, 0, this.mouseX), 0.05);
-    this.lastMouseY = lerp(this.lastMouseY, lineEq(48, 52, this.height, 0, this.mouseY), 0.05);
-    this.camera.position.set(this.lastMouseX, this.lastMouseY, 155);
-
-    requestAnimationFrame(() => this.tilt());
   }
 
   addFloor() {
