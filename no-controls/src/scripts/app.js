@@ -4,7 +4,7 @@ export default class App {
   init() {
     this.group = new THREE.Object3D();
     this.bgColor = window.getComputedStyle(document.body, null).getPropertyValue('background-color');
-    this.gridSize = 40;
+    this.gridSize = 30;
     this.buildings = [];
     this.fogConfig = {
       color: '#353c3c',
@@ -149,9 +149,7 @@ export default class App {
     const planeGeometry = new THREE.PlaneBufferGeometry(200, 200);
     const planeMaterial = new THREE.MeshLambertMaterial({
       color: floor.color,
-      metalness: 0,
       emissive: '#000000',
-      roughness: 0,
     });
 
     const plane = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -242,6 +240,9 @@ export default class App {
     const min = .001;
     const material = new THREE.MeshPhysicalMaterial(meshParams);
 
+    material.flatShading = true;
+    material.precision = 'lowp';
+
     for (let i = 0; i < this.gridSize; i++) {
       for (let j = 0; j < this.gridSize; j++) {
         const building = this.getRandomBuiding().clone();
@@ -251,8 +252,7 @@ export default class App {
         building.matrixAutoUpdate = true;
         building.scale.y = Math.random() * (max - min + .01);
         building.position.x = (i * boxSize);
-        building.position.z = (j * boxSize);
-
+        building.position.z = (j * boxSize) + 30;
         this.group.add(building);
 
         this.buildings.push(building);
