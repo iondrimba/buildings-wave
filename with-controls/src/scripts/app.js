@@ -23,7 +23,7 @@ export default class App {
     this.addSpotLight();
     this.addCameraControls();
     this.addFloor();
-    this.addBackgroundShape();
+    this.addTiltEvent();
     this.loadModels('https://raw.githubusercontent.com/iondrimba/images/master/buildings.obj', this.onLoadModelsComplete.bind(this));
 
     this.animate();
@@ -32,7 +32,6 @@ export default class App {
 
     fogGUI.addColor(this.fogConfig, 'color').onChange((color) => {
       this.scene.fog.color = new THREE.Color(color);
-      this.backgroundShape.material.color = this.hexToRgbTreeJs(color);
       document.body.style.backgroundColor = color;
     });
 
@@ -118,7 +117,7 @@ export default class App {
   }
 
   getRandomBuiding() {
-    return this.models[Math.floor(Math.random() * Math.floor(this.models.length))];
+    return this.models[Math.floor(Math.random() * Math.floor(this.models.length))].clone();
   }
 
   onLoadModelsComplete(obj) {
@@ -127,8 +126,8 @@ export default class App {
 
       model.scale.set(scale, scale, scale);
       model.position.set(0, -14, 0);
-      model.receiveShadow = true;
-      model.castShadow = true;
+      model.matrixAutoUpdate = false;
+      model.visible = false;
 
       return model;
     });
@@ -182,9 +181,11 @@ export default class App {
 
     for (let i = 0; i < this.gridSize; i++) {
       for (let j = 0; j < this.gridSize; j++) {
-        const building = this.getRandomBuiding().clone();
+        const building = this.getRandomBuiding();
 
         building.material = material;
+        building.matrixAutoUpdate = true;
+        building.visible = true;
         building.scale.y = Math.random() * (max - min + .01);
         building.position.x = (i * boxSize);
         building.position.z = (j * boxSize);
@@ -203,7 +204,11 @@ export default class App {
     this.sortBuildingsByDistance();
 
     this.buildings.forEach((building, index) => {
-      TweenMax.to(building.position, .6 + (index / 3500), { y: 1, ease: Expo.easeOut, delay: index / 3500 });
+      TweenMax.to(building.position, .6 + (index / 3500), {
+        y: 1, ease: Expo.easeOut, delay: index / 3500, onComplete: (building) => {
+          building.matrixAutoUpdate = false;
+        }, onCompleteParams: [building]
+      });
     });
   }
 
@@ -249,7 +254,7 @@ export default class App {
   }
 
   createCamera() {
-    this.camera = new THREE.PerspectiveCamera(20, this.width / this.height, 1, 1000);
+    this.camera = new THREE.PerspectiveCamera(20, this.width / this.height, 90, 1000);
     this.camera.position.set(3, 50, 155);
 
     this.scene.add(this.camera);
@@ -298,15 +303,7 @@ export default class App {
     this.scene.add(ambientLight);
   }
 
-  addBackgroundShape() {
-    const planeGeometry = new THREE.PlaneGeometry(400, 100);
-    const planeMaterial = new THREE.MeshPhysicalMaterial({ color: '#fff' });
-    this.backgroundShape = new THREE.Mesh(planeGeometry, planeMaterial);
-
-    this.backgroundShape.position.y = 10;
-    this.backgroundShape.position.z = -150;
-
-    this.scene.add(this.backgroundShape);
+  addTiltEvent() {
     /*
     this.mouseX = 3;
     this.mouseY = 50;
@@ -322,24 +319,23 @@ export default class App {
   tilt() {
     const lerp = (a, b, n) => (1 - n) * a + n * b;
     const lineEq = (y2, y1, x2, x1, currentVal) => {
-      let m = (y2 - y1) / (x2 - x1); 
+      let m = (y2 - y1) / (x2 - x1);
       let b = y1 - m * x1;
       return m * currentVal + b;
     };
-    this.lastMouseX = lerp(this.lastMouseX, lineEq(0,6,this.width,0,this.mouseX), 0.05);
-    this.lastMouseY = lerp(this.lastMouseY, lineEq(48,52,this.height,0,this.mouseY), 0.05);
+    this.lastMouseX = lerp(this.lastMouseX, lineEq(0, 6, this.width, 0, this.mouseX), 0.05);
+    this.lastMouseY = lerp(this.lastMouseY, lineEq(48, 52, this.height, 0, this.mouseY), 0.05);
     this.camera.position.set(this.lastMouseX, this.lastMouseY, 155);
+
     requestAnimationFrame(() => this.tilt());
   }
 
   addFloor() {
     const floor = { color: '#000' };
-    const planeGeometry = new THREE.PlaneGeometry(200, 200);
-    const planeMaterial = new THREE.MeshStandardMaterial({
+    const planeGeometry = new THREE.PlaneBufferGeometry(200, 200);
+    const planeMaterial = new THREE.MeshLambertMaterial({
       color: floor.color,
-      metalness: 0,
       emissive: '#000000',
-      roughness: 0,
     });
 
     const plane = new THREE.Mesh(planeGeometry, planeMaterial);
