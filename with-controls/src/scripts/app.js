@@ -195,6 +195,8 @@ export default class App {
       }
     }
 
+    this.removeSourceModels();
+
     this.scene.add(this.group);
     this.group.position.set(-this.gridSize - 10, 1, -this.gridSize - 10);
   }
@@ -208,6 +210,12 @@ export default class App {
           building.matrixAutoUpdate = false;
         }, onCompleteParams: [building]
       });
+    });
+  }
+
+  removeSourceModels() {
+    this.models.map((model) => {
+      this.scene.remove(model);
     });
   }
 

@@ -259,8 +259,16 @@ export default class App {
       }
     }
 
+    this.removeSourceModels();
+
     this.scene.add(this.group);
     this.group.position.set(-this.gridSize - 10, 1, -this.gridSize - 10);
+  }
+
+  removeSourceModels() {
+    this.models.map((model) => {
+      this.scene.remove(model);
+    });
   }
 
   onResize() {
