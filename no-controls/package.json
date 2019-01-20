@@ -1,0 +1,45 @@
+{
+  "name": "game-of-life-3d",
+  "version": "1.0.0",
+  "description": "Game of Life 3D",
+  "main": "src/index.js",
+  "keywords": [
+    "ES6"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iondrimba/game-of-life-3d.git"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
+  },
+  "author": "Ion D. Filho <iondrimba@gmail.com> (https://iondrimbafilho.me)",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "babel-core": "^6.7.0",
+    "babel-loader": "^8.0.2",
+    "babel-polyfill": "^6.6.1",
+    "babel-preset-env": "^1.7.0",
+    "clean-webpack-plugin": "^1.0.0",
+    "css-loader": "^2.1.0",
+    "file-loader": "^3.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.5.0",
+    "node-sass": "^4.10.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.0",
+    "uglifyjs-webpack-plugin": "^2.1.1",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.14",
+    "webpack-merge": "^4.1.5"
+  },
+  "dependencies": {
+    "three": "^0.100.0",
+    "threejs-controls": "^1.0.6"
+  }
+}
