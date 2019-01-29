@@ -2,7 +2,8 @@
   "globals": {
     "THREE": true,
     "TweenMax": true,
-    "dat": true
+    "dat": true,
+    "Expo": true
   },
   "extends": [
     "eslint:recommended"
