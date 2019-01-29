@@ -18,57 +18,18 @@ export default class App {
     this.createScene();
     this.createCamera();
     this.addCameraControls();
-    this.addAmbientLight();
-    this.addSpotLight();
     this.addFloor();
     this.addBackgroundShape();
     this.loadModels('https://raw.githubusercontent.com/iondrimba/images/master/buildings.obj', this.onLoadModelsComplete.bind(this));
-
     this.animate();
 
-    this.pointLightObj = {
-      color: '#ff0000',
-      intensity: 7.5,
-      position: {
-        x: -15,
-        y: 46,
-        z: 43,
-      }
-    };
-
-    this.addPointLight(this.pointLightObj);
-
-    this.pointLightObj1 = {
-      color: '#131dca',
-      intensity: 2.8,
-      position: {
-        x: -7,
-        y: 100,
-        z: 7,
-      }
-    };
-
-    this.addPointLight(this.pointLightObj1);
-
-    this.pointLightObj2 = {
-      color: '#ed1831',
-      intensity: 8.3,
+    this.pointLightObj3 = {
+      color: '#d3263a',
+      intensity: 8.2,
       position: {
         x: 16,
         y: 100,
         z: -68,
-      }
-    };
-
-    this.addPointLight(this.pointLightObj2);
-
-    this.pointLightObj3 = {
-      color: '#00ffd1',
-      intensity: 4.7,
-      position: {
-        x: 5,
-        y: 53,
-        z: -13,
       }
     };
 
@@ -128,29 +89,62 @@ export default class App {
     this.backgroundShape.position.z = -150;
 
     this.scene.add(this.backgroundShape);
-    
-    /*this.mouseX = 3;
-    this.mouseY = 50;
+
+    this.mouseX = 3;
     this.lastMouseX = 3;
-    this.lastMouseY = 50;
-    requestAnimationFrame(() => this.tilt());
+    this.lastMouseY = 65;
+    this.lastScale = 155;
+    this.tiltFx = {
+      body: document.body,
+      docEl: document.documentElement,
+      getMousePos: (e, docScrolls) => {
+        let posx = 0;
+        let posy = 0;
+        if (!e) { e = window.event; }
+        if (e.pageX || e.pageY) {
+          posx = e.pageX;
+          posy = e.pageY;
+        }
+        else if (e.clientX || e.clientY) {
+          posx = e.clientX + docScrolls.left;
+          posy = e.clientY + docScrolls.top;
+        }
+        return { x: posx, y: posy }
+      },
+      lerp: (a, b, n) => (1 - n) * a + n * b,
+      lineEq: (y2, y1, x2, x1, currentVal) => {
+        let m = (y2 - y1) / (x2 - x1);
+        let b = y1 - m * x1;
+        return m * currentVal + b;
+      }
+    };
+
+    this.docheight = Math.max(this.tiltFx.body.scrollHeight, this.tiltFx.body.offsetHeight, this.tiltFx.docEl.clientHeight, this.tiltFx.docEl.scrollHeight, this.tiltFx.docEl.offsetHeight);
+
+    this.requestId = requestAnimationFrame(() => this.tilt());
+
     window.addEventListener('mousemove', (ev) => {
-      this.mouseX = ev.pageX;
-      this.mouseY = ev.pageY;
-    });*/
+      const docScrolls = { left: this.tiltFx.body.scrollLeft + this.tiltFx.docEl.scrollLeft, top: this.tiltFx.body.scrollTop + this.tiltFx.docEl.scrollTop };
+      const mp = this.tiltFx.getMousePos(ev, docScrolls);
+      this.mouseX = mp.x - docScrolls.left;
+    });
+
+    window.addEventListener('resize', () => this.docheight = Math.max(this.tiltFx.body.scrollHeight, this.tiltFx.body.offsetHeight, this.tiltFx.docEl.clientHeight,
+      this.tiltFx.docEl.scrollHeight, this.tiltFx.docEl.offsetHeight));
+
+    window.onbeforeunload = () => {
+      window.cancelAnimationFrame(this.requestId);
+      window.scrollTo(0, 0);
+    };
   }
 
   tilt() {
-    const lerp = (a, b, n) => (1 - n) * a + n * b;
-    const lineEq = (y2, y1, x2, x1, currentVal) => {
-      let m = (y2 - y1) / (x2 - x1); 
-      let b = y1 - m * x1;
-      return m * currentVal + b;
-    };
-    this.lastMouseX = lerp(this.lastMouseX, lineEq(0,6,this.width,0,this.mouseX), 0.05);
-    this.lastMouseY = lerp(this.lastMouseY, lineEq(48,52,this.height,0,this.mouseY), 0.05);
-    this.camera.position.set(this.lastMouseX, this.lastMouseY, 155);
-    requestAnimationFrame(() => this.tilt());
+    this.lastMouseX = this.tiltFx.lerp(this.lastMouseX, this.tiltFx.lineEq(6, 0, this.width, 0, this.mouseX), 0.05);
+    const newScrollingPos = window.pageYOffset;
+    this.lastMouseY = this.tiltFx.lerp(this.lastMouseY, this.tiltFx.lineEq(0, 65, this.docheight, 0, newScrollingPos), 0.05);
+    this.lastScale = this.tiltFx.lerp(this.lastScale, this.tiltFx.lineEq(0, 158, this.docheight, 0, newScrollingPos), 0.05);
+    this.camera.position.set(this.lastMouseX, this.lastMouseY, this.lastScale);
+    this.requestId = requestAnimationFrame(() => this.tilt());
   }
 
   addFloor() {
@@ -195,24 +189,25 @@ export default class App {
       return model;
     });
 
-    this.removeLoader();
-
     this.draw();
 
-    setTimeout(this.showBuildings.bind(this), 1000);
+    setTimeout(() => {
+      this.removeLoader();
+      this.showBuildings();
+    }, 500);
 
     window.addEventListener('resize', this.onResize.bind(this));
   }
 
   removeLoader() {
-    document.querySelector('.loader').remove();
+    document.querySelector('.loader').classList.add('loader--done');
   }
 
   showBuildings() {
     this.sortBuildingsByDistance();
 
     this.buildings.forEach((building, index) => {
-      TweenMax.to(building.position, .6 + (index / 3500), { y: 1, ease: Expo.easeInOut, delay: index / 3500 });
+      TweenMax.to(building.position, .6 + (index / 4000), { y: 1, ease: Quint.easeOut, delay: index / 4000 });
     });
   }
 

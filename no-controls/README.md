@@ -2,7 +2,7 @@
 
 A tutorial on how to create a 3D building wave animation with three.js and TweenMax. By Ion D. Filho.
 
-![Image Title](link)
+![Buildings Wave](https://tympanus.net/codrops/wp-content/uploads/2019/01/BuildingsWave_featured.jpg)
 
 [Article on Codrops](https://tympanus.net/codrops/?p=37794)
 
