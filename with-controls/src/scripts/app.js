@@ -133,19 +133,17 @@ export default class App {
       return model;
     });
 
-    this.removeLoader();
+    setTimeout(() => {
+      this.removeLoader();
+      this.showBuildings();
+      window.addEventListener('resize', this.onResize.bind(this));
+    }, 500);
 
     this.draw();
-
-    setTimeout(() => {
-      this.showBuildings();
-
-      window.addEventListener('resize', this.onResize.bind(this));
-    }, 1000);
   }
 
   removeLoader() {
-    document.querySelector('.loader').remove();
+    document.querySelector('.loader').classList.add('loader--done');
   }
 
   draw() {
@@ -203,7 +201,7 @@ export default class App {
     this.sortBuildingsByDistance();
 
     this.buildings.forEach((building, index) => {
-      TweenMax.to(building.position, .6 + (index / 3500), { y: 1, ease: Expo.easeOut, delay: index / 3500 });
+      TweenMax.to(building.position, .6 + (index / 4000), { y: 1, ease: Expo.easeOut, delay: index / 4000 });
     });
   }
 
@@ -307,7 +305,7 @@ export default class App {
     this.backgroundShape.position.z = -150;
 
     this.scene.add(this.backgroundShape);
-    /*
+    
     this.mouseX = 3;
     this.mouseY = 50;
     this.lastMouseX = 3;
@@ -316,7 +314,7 @@ export default class App {
     window.addEventListener('mousemove', (ev) => {
       this.mouseX = ev.pageX;
       this.mouseY = ev.pageY;
-    });*/
+    });
   }
 
   tilt() {
