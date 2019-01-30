@@ -47,6 +47,7 @@ with-controls/ and no-controls/
 * [Threejs](https://threejs.org/)
 * [TweenMax](https://greensock.com/tweenmax)
 * [Buildings Icon by Freepik](https://www.flaticon.com/free-icon/apartments_88945)
+* [Models by Backlog Studio](https://free3d.com/3d-model/19-low-poly-buildings-974347.html)
 
 ## License
 This resource can be used freely if integrated or build upon in personal or commercial projects such as websites, web apps and web templates intended for sale. It is not allowed to take the resource "as-is" and sell it, redistribute, re-publish it, or sell "pluginized" versions of it. Free plugins built using this resource should have a visible mention and link to the original work. Always consider the licenses of all included libraries, scripts and images used.
@@ -59,8 +60,3 @@ Follow Codrops: [Twitter](http://www.twitter.com/codrops), [Facebook](http://www
 
 
 [© Codrops 2018](http://www.codrops.com)
-
-
-
-
-
