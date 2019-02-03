@@ -1,4 +1,4 @@
-# Buildings Wave Animation with Three.js
+# :european_post_office: Buildings Wave Animation with Three.js
 
 A tutorial on how to create a 3D building wave animation with three.js and TweenMax. By Ion D. Filho.
 
