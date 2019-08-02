@@ -6,7 +6,7 @@ A tutorial on how to create a 3D building wave animation with three.js and Tween
 
 [Article on Codrops](https://tympanus.net/codrops/?p=37794)
 
-[Demo](https://tympanus.net/Tutorials/BuildingsWave/)
+[Demo](https://iondrimba.github.io/buildings-wave/no-controls/public/index.html)
 
 ### Requirements
 * nodejs 8+
