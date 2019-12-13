@@ -1,4 +1,4 @@
-import 'styles/index.scss';
+import 'styles/index.css';
 
 export default class App {
   init() {
