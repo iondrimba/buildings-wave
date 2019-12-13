@@ -1,8 +1,8 @@
 # :european_post_office: Buildings Wave Animation with Three.js
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=iondrimba/buildings-wave)](https://dependabot.com)
 
-[First Demo](https://iondrimba.github.io/buildings-wave/with-controls/public/index.html)  
-[Second Demo](https://iondrimba.github.io/buildings-wave/no-controls/public/index.html)
+[First Demo](https://tympanus.net/Tutorials/BuildingsWave/index.html)  
+[Second Demo](https://tympanus.net/Tutorials/BuildingsWave/index2.html)
 
 A tutorial on how to create a 3D building wave animation with three.js and TweenMax. By Ion D. Filho.
 
