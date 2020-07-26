@@ -1,4 +1,13 @@
+import THREE from './three.r110.js';
+import TweenMax from './tweenmax.1.20.3';
+import OBJLoader from './three.r110.objloader';
+import OrbitControls from './three.r110.orbitcontrols';
+import dat from './dat.gui.0.7.2';
 import 'styles/index.css';
+
+THREE = window.THREE;
+THREE.OrbitControl = OrbitControls;
+THREE.OBJLoader  = OBJLoader;
 
 export default class App {
   init() {

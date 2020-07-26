@@ -1,4 +1,12 @@
+import THREE from './three.r110.js';
+import TweenMax from './tweenmax.1.20.3';
+import OBJLoader from './three.r110.objloader';
+import OrbitControls from './three.r110.orbitcontrols';
 import 'styles/index.css';
+
+THREE = window.THREE;
+THREE.OrbitControl = OrbitControls;
+THREE.OBJLoader  = OBJLoader;
 
 export default class App {
   init() {
@@ -58,7 +66,7 @@ export default class App {
   }
 
   addCameraControls() {
-    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    this.controls = new THREE.OrbitControl(this.camera, this.renderer.domElement);
 
     this.controls.enabled = false;
   }
