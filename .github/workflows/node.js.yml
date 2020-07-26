@@ -24,9 +24,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd no-controls
-    - run: npm ci
-    - run: npm run build
+    - run: cd no-controls && npm ci && npm run build
 
   with-controls:
 
@@ -42,6 +40,4 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd with-controls
-    - run: npm ci
-    - run: npm run build
+    - run: cd with-controls && npm ci && npm run build
