@@ -6,7 +6,7 @@ import dat from './dat.gui.0.7.2';
 import 'styles/index.css';
 
 THREE = window.THREE;
-THREE.OrbitControl = OrbitControls;
+THREE.OrbitControls = OrbitControls;
 THREE.OBJLoader  = OBJLoader;
 
 export default class App {

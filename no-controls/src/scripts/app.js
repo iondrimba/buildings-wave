@@ -5,7 +5,7 @@ import OrbitControls from './three.r110.orbitcontrols';
 import 'styles/index.css';
 
 THREE = window.THREE;
-THREE.OrbitControl = OrbitControls;
+THREE.OrbitControls = OrbitControls;
 THREE.OBJLoader  = OBJLoader;
 
 export default class App {
@@ -66,7 +66,7 @@ export default class App {
   }
 
   addCameraControls() {
-    this.controls = new THREE.OrbitControl(this.camera, this.renderer.domElement);
+    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 
     this.controls.enabled = false;
   }
